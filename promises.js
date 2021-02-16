@@ -1,5 +1,5 @@
 const fetch = require ('node-fetch');
-const fetch2 = require('node-fetch')
+const fs = require('fs').promises;
 
 // fetch('https://swapi.dev/api/people/1')
 //     .then((res) => res.json())
@@ -15,7 +15,7 @@ const fetch2 = require('node-fetch')
 
 //     })
    //new Promise (res, rej) 
-
+   let name = ''
     
 
     function getPerson(id) {
@@ -48,10 +48,28 @@ const fetch2 = require('node-fetch')
                         
     // }
 
+    getPerson(1)
+        .then((person) => {
+            console.log(person.homeworld)
+            console.log(person.name)
+            name = person.name
+            
+            let fileContents = `My name is ${name} and I am from Tatooine.`
+
+            fs.writeFile('filename.txt', fileContents, 'utf-8')
+                .then(() => console.log(`File Saved`))
+                .catch((e) => console.error("Something went wrong when writing the file"))
+
+        })
+        console.log(name)
+
+
     // getPerson(1)
-    //     .then((person) => {
+    //     .then(function (person) {
     //         console.log(person.homeworld)
     //         console.log(person.name)
+    //         name = person.name  
+    //         return name
     //     })
 
     // getPerson(1)
@@ -84,3 +102,11 @@ const fetch2 = require('node-fetch')
         })
         .then((arrofPromisesReturnbyJson) => Promise.all(arrofPromisesReturnbyJson))
         .then((films) => films.forEach(film => console.log(film.title)))
+
+       
+
+        let fileContents = `My name is ${name} and I am not from Hoth.`
+
+        fs.writeFile('filename.txt', fileContents, 'utf-8')
+            .then(() => console.log(`File Saved`))
+            .catch((e) => console.error("Something went wrong when writing the file"))
