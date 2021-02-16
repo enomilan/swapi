@@ -60,6 +60,16 @@ const fetch2 = require('node-fetch')
     // getPerson(2)
     //     .then((person) => getFilms(person))
 
+    function getFilms(person) {
+        const filmPromises = person.films.map(url => {
+             return fetch(url).then((responseObj) => responseObj.json())
+        })
+        return Promise.all(filmPromises)
+     }
+     getPerson(1)
+         .then((person) => getFilms(person))
+         .then((films) => films.forEach(film => console.log(film.title)))
+
 
     Promise.all( 
         [fetch ('https://swapi.dev/api/films/1/'),
